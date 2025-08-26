@@ -28,7 +28,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _onPress = false;
+  int _counter = 0;
+  final List<Color> _colors = <Color>[
+    Colors.red,
+    Colors.blue,
+    Colors.pink,
+    Colors.green,
+  ];
+
+  final List<String> _buttonTitle = <String>['Red', 'Blue', 'Pink', 'Green'];
+
+  void _changeColor() {
+    setState(() {
+      if (_counter < _colors.length - 1) {
+        _counter++;
+      } else {
+        _counter = 0;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Center(
           child: ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: _onPress
-                  ? WidgetStatePropertyAll<Color>(Colors.red)
-                  : WidgetStatePropertyAll<Color>(Colors.green),
+              backgroundColor: WidgetStatePropertyAll<Color>(_colors[_counter]),
             ),
-            child: Text('Clique', style: TextStyle(color: Colors.white)),
-            onPressed: () {
-              setState(() {
-                _onPress = !_onPress;
-              });
-            },
+            onPressed: _changeColor,
+            child: Text(
+              _buttonTitle[_counter],
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
       ),
